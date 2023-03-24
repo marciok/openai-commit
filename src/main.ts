@@ -14,8 +14,8 @@ export async function run(): Promise<void> {
     const response = await openai.createCompletion({
       model: core.getInput("model"),
       prompt: core.getInput("openai-prompt"),
-      temperature: 0.7,
-      max_tokens: 256,
+      temperature: 0,
+      max_tokens: 2000,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
@@ -23,7 +23,7 @@ export async function run(): Promise<void> {
     const text = response.data.choices[0].text ?? "";
 
     // The output of this action is the text from OpenAI trimmed and escaped
-    core.setOutput("text", text.trim().replace(/(\r\n|\n|\r|'|"|`|)/gm, ""));
+    core.setOutput("text", text);
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
